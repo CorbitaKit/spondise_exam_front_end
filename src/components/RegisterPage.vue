@@ -3,26 +3,18 @@
         <form>
             <div class="container">
                 <label for="uname"><b>Name</b></label>
-                <input type="text" placeholder="Enter Name" v-model="email">
-                
+                <input type="text" placeholder="Enter Name" v-model="user.name">
+                <div v-if="errors.name"><span style="color:red">{{ errors.name }}</span></div>
                 <label for="uname"><b>Email</b></label>
-                <input type="text" placeholder="Enter Email" v-model="email">
-
+                <input type="text" placeholder="Enter Email" v-model="user.email">
+                <div v-if="errors.email"><span style="color:red">{{ errors.email }}</span></div>
                 <label for="psw"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" v-model="password">
+                <input type="password" placeholder="Enter Password" v-model="user.password">
+                <div v-if="errors.password"><span style="color:red">{{ errors.password }}</span></div>
 
-                <label for="psw"><b>Confirm Password</b></label>
-                <input type="password" placeholder="Enter Password" v-model="password">
-
-                <button @click.prevent="test">Login</button>
-                <label>
-                <input type="checkbox" checked="checked" name="remember"> Remember me
-                </label>
+                <button @click.prevent="test">Register</button>
             </div>
 
-            <div class="container" style="background-color:#f1f1f1">
-                <span class="psw"> <RouterLink to="/register">password?</RouterLink></span>
-            </div>
             </form>
     </div>
   </template>
@@ -32,15 +24,22 @@
     export default{
       data() {
         return {
-          email: '',
-          password: '',
+          user: {
+            email : '',
+            name: '',
+            password: '',
+          },
+          errors: [],
         }
       },
       methods:{
         test () {
-          axios.post('http://localhost/api/login')
+          axios.post('http://localhost/api/register', this.user)
           .then(response=>{
-            console.log("teST")
+            this.$router.push('/')
+          })
+          .catch(err=>{
+            this.errors = err.response.data.errors
           })
         }
       }

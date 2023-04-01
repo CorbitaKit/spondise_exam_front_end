@@ -2,20 +2,20 @@
     <div class="container">
         <form>
             <div class="container">
-                <label for="uname"><b>Username</b></label>
-                <input type="text" placeholder="Enter Username" v-model="email">
+                <label for="uname"><b>Email</b></label>
+                <input type="text" placeholder="Enter Email" v-model="email">
 
                 <label for="psw"><b>Password</b></label>
                 <input type="password" placeholder="Enter Password" v-model="password">
 
-                <button @click.prevent="test">Login</button>
+                <button @click.prevent="login">Login</button>
                 <label>
                 <input type="checkbox" checked="checked" name="remember"> Remember me
                 </label>
             </div>
 
             <div class="container" style="background-color:#f1f1f1">
-                <span class="psw"> <RouterLink to="/register">password?</RouterLink></span>
+                <span class="psw"> <RouterLink to="/register">Register</RouterLink></span>
             </div>
             </form>
     </div>
@@ -31,12 +31,15 @@
         }
       },
       methods:{
-        test () {
-          axios.post('http://localhost/api/login')
-          .then(response=>{
-            console.log("teST")
-          })
-        }
+        login () {
+            const data = new FormData()
+            data.append('email', this.email)
+            data.append('password', this.password)
+            axios.post('http://localhost/api/login', data)
+                .then(response=>{
+                    this.$router.push({name: 'myaccount/', params: {user: response.user, token: response.token}})
+                })
+            }
       }
     }
   </script>

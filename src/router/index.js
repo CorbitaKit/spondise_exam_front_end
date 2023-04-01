@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import RegisterPage from '../components/RegisterPage.vue'
 import LoginPage from '../components/LoginPage.vue'
+import MyAccount from '../components/MyAccount.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -21,6 +22,12 @@ const router = createRouter({
       path: '/register',
       name: 'register',
       component: RegisterPage,
+    },
+    {
+      path: '/myaccount/:user',
+      name: 'myaccount',
+      component: MyAccount,
+      props: route => ({ user: route.query.user })
     }
   ]
 })
